@@ -1,0 +1,152 @@
+definitions:
+  dto.AuthRequest:
+    properties:
+      email_address:
+        type: string
+      password:
+        type: string
+    required:
+    - email_address
+    - password
+    type: object
+  dto.Token:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  dto.WalletRequest:
+    properties:
+      amount:
+        type: number
+    required:
+    - amount
+    type: object
+  utility.Response:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/wallets/{wallet_id}/balance:
+    get:
+      description: Get wallet balance
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: Get wallet balance
+      tags:
+      - Wallet
+  /api/v1/wallets/{wallet_id}/credit:
+    post:
+      consumes:
+      - application/json
+      description: Credit wallet account
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        type: string
+      - description: Login to account
+        in: body
+        name: default
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WalletRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utility.Response'
+        "401":
+          description: ""
+      summary: Credit wallet account
+      tags:
+      - Wallet
+  /api/v1/wallets/{wallet_id}/debit:
+    post:
+      consumes:
+      - application/json
+      description: Debit wallet account
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        type: string
+      - description: Request param
+        in: body
+        name: default
+        required: true
+        schema:
+          $ref: '#/definitions/dto.WalletRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utility.Response'
+        "401":
+          description: ""
+      summary: Debit wallet account
+      tags:
+      - Wallet
+  /auth:
+    post:
+      consumes:
+      - application/json
+      description: Returns auth token
+      parameters:
+      - description: Login to account
+        in: body
+        name: default
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Token'
+      summary: Generate auth token
+      tags:
+      - Auth
+  /auth/verify:
+    post:
+      consumes:
+      - application/json
+      description: verify auth token
+      parameters:
+      - description: Login to account
+        in: body
+        name: default
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Token'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      summary: Verify auth token
+      tags:
+      - Auth
+swagger: "2.0"
