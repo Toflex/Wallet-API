@@ -72,4 +72,4 @@ Below is a sample curl request to get a wallet balance.
    "amount": 1290.89
    }'`
 
-
+3. Wallet table has been seeded with wallet id `10` and `11`
